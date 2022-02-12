@@ -50,7 +50,7 @@ fun Keyboard(
     keyPadding: Dp = 4.dp,
     textPadding: Dp = 4.dp,
     fontSize: TextUnit = 16.sp,
-    keyboardKey: KeyboardKey = koin().get(NAMED_KEYBOARD_KEY)
+    keyboardKey: KeyboardKey = koin.get(NAMED_KEYBOARD_KEY)
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(layout.first().length),
@@ -70,7 +70,7 @@ fun KeyboardKeyButton(
     buttonPadding: Dp,
     textPadding: Dp,
     fontSize: TextUnit,
-    keyboardKeyText: KeyboardKeyText = koin().get(NAMED_KEYBOARD_KEY_TEXT)
+    keyboardKeyText: KeyboardKeyText = koin.get(NAMED_KEYBOARD_KEY_TEXT)
 ) {
     Button(
         modifier = Modifier
@@ -88,7 +88,7 @@ fun KeyboardKeyCard(
     cardPadding: Dp,
     textPadding: Dp,
     fontSize: TextUnit,
-    keyboardKeyText: KeyboardKeyText = koin().get(NAMED_KEYBOARD_KEY_TEXT)
+    keyboardKeyText: KeyboardKeyText = koin.get(NAMED_KEYBOARD_KEY_TEXT)
 ) {
     Card(
         modifier = Modifier

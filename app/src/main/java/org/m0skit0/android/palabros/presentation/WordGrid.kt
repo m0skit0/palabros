@@ -1,5 +1,6 @@
 package org.m0skit0.android.palabros.presentation
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -16,6 +18,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.flow.Flow
+import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
+import org.m0skit0.android.palabros.di.koin
+import org.m0skit0.android.palabros.state.PlayGridState
 
 typealias WordGrid = @Composable () -> Unit
 
@@ -37,26 +43,49 @@ fun WordGrid(
     gridPadding: Dp = 8.dp,
     cardPadding: Dp = 4.dp,
     textPadding: Dp = 20.dp,
-    fontSize: TextUnit = 16.sp
+    fontSize: TextUnit = 16.sp,
+    playGridState: Flow<PlayGridState> = koin.get(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(wordLength),
         contentPadding = PaddingValues(gridPadding)
     ) {
-        repeat(wordLength * tries) {
+        repeat(wordLength * tries) { index ->
             item {
-                Card(
-                    modifier = Modifier.padding(cardPadding),
-                    backgroundColor = Color.LightGray,
-                ) {
-                    Text(
-                        text = "A",
-                        fontSize = fontSize,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(textPadding),
-                    )
-                }
+                WordGridLetter(
+                    cardPadding = cardPadding,
+                    textPadding = textPadding,
+                    fontSize = fontSize,
+                    column = index % WORD_LENGTH,
+                    row = index / WORD_LENGTH,
+                    playGridState = playGridState
+                )
             }
         }
+    }
+}
+
+@Composable
+fun WordGridLetter(
+    cardPadding: Dp,
+    textPadding: Dp,
+    fontSize: TextUnit,
+    row: Int,
+    column: Int,
+    playGridState: Flow<PlayGridState>
+) {
+    val state = playGridState.collectAsState(initial = PlayGridState())
+    Card(
+        modifier = Modifier.padding(cardPadding),
+        backgroundColor = Color.LightGray,
+    ) {
+        val letter = state.value.grid.getOrNull(row)?.getOrNull(column)?.uppercase() ?: ""
+        Log.d("HEY", "State $state, Row $row, Column $column, Letter $letter")
+        Text(
+            text = letter,
+            fontSize = fontSize,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(textPadding),
+        )
     }
 }

@@ -10,8 +10,8 @@ typealias PlayGrid = @Composable () -> Unit
 
 @Composable
 fun PlayGrid(
-    wordGrid: WordGrid = koin().get(NAMED_WORD_GRID),
-    keyboard: Keyboard = koin().get(NAMED_KEYBOARD)
+    wordGrid: WordGrid = koin.get(NAMED_WORD_GRID),
+    keyboard: Keyboard = koin.get(NAMED_KEYBOARD)
 ) {
     Column {
         wordGrid()

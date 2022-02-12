@@ -5,34 +5,38 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.Koin
 import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.m0skit0.android.palabros.presentation.*
+import org.m0skit0.android.palabros.state.PlayGridState
 
-private lateinit var koin: Koin
-fun koin(): Koin = koin
+lateinit var koin: Koin private set
 
 @ExperimentalFoundationApi
 fun Application.initializeKoin() {
     startKoin {
         androidContext(this@initializeKoin)
         modules(
-            composableModule
+            keyboardModule,
+            gridModule,
+            stateModule,
         )
+    }.let {
+        koin = it.koin
     }
 }
 
 val NAMED_KEYBOARD = named("NAMED_KEYBOARD")
 val NAMED_KEYBOARD_KEY = named("NAMED_KEYBOARD_KEY")
 val NAMED_KEYBOARD_KEY_TEXT = named("NAMED_KEYBOARD_KEY_TEXT")
-val NAMED_WORD_GRID = named("NAMED_WORD_GRID")
-val NAMED_PLAY_GRID = named("NAMED_PLAY_GRID")
 
 @ExperimentalFoundationApi
-private val composableModule = module {
+private val keyboardModule = module {
     single<Keyboard>(NAMED_KEYBOARD) { { Keyboard() } }
     single<KeyboardKey>(NAMED_KEYBOARD_KEY) {
         @Composable { key: Char, keyPadding: Dp, textPadding: Dp, fontSize: TextUnit ->
@@ -53,6 +57,13 @@ private val composableModule = module {
             )
         }
     }
+}
+
+val NAMED_WORD_GRID = named("NAMED_WORD_GRID")
+val NAMED_PLAY_GRID = named("NAMED_PLAY_GRID")
+
+@ExperimentalFoundationApi
+private val gridModule = module {
     single<WordGrid>(NAMED_WORD_GRID) {
         @Composable {
             WordGrid()
@@ -63,4 +74,9 @@ private val composableModule = module {
             PlayGrid()
         }
     }
+}
+
+val NAMED_PLAY_GRID_STATE_FLOW = named("NAMED_PLAY_GRID_STATE_FLOW")
+private val stateModule = module {
+    single<Flow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW) { MutableStateFlow(PlayGridState()) }
 }
