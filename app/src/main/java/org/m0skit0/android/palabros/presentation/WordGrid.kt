@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+typealias WordGrid = @Composable () -> Unit
+
 private const val WORD_LENGTH = 5
 private const val TRIES = 6
 

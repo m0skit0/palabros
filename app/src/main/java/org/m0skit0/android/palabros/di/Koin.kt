@@ -10,10 +10,7 @@ import org.koin.core.Koin
 import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
-import org.m0skit0.android.palabros.presentation.Keyboard
-import org.m0skit0.android.palabros.presentation.KeyboardKey
-import org.m0skit0.android.palabros.presentation.KeyboardKeyCard
-import org.m0skit0.android.palabros.presentation.KeyboardKeyText
+import org.m0skit0.android.palabros.presentation.*
 
 private lateinit var koin: Koin
 fun koin(): Koin = koin
@@ -31,6 +28,8 @@ fun Application.initializeKoin() {
 val NAMED_KEYBOARD = named("NAMED_KEYBOARD")
 val NAMED_KEYBOARD_KEY = named("NAMED_KEYBOARD_KEY")
 val NAMED_KEYBOARD_KEY_TEXT = named("NAMED_KEYBOARD_KEY_TEXT")
+val NAMED_WORD_GRID = named("NAMED_WORD_GRID")
+val NAMED_PLAY_GRID = named("NAMED_PLAY_GRID")
 
 @ExperimentalFoundationApi
 private val composableModule = module {
@@ -52,6 +51,16 @@ private val composableModule = module {
                 textPadding = textPadding,
                 fontSize = fontSize,
             )
+        }
+    }
+    single<WordGrid>(NAMED_WORD_GRID) {
+        @Composable {
+            WordGrid()
+        }
+    }
+    single<PlayGrid>(NAMED_PLAY_GRID) {
+        @Composable {
+            PlayGrid()
         }
     }
 }
