@@ -11,6 +11,8 @@ import org.koin.core.Koin
 import org.koin.core.context.startKoin
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
+import org.m0skit0.android.palabros.log.Logger
+import org.m0skit0.android.palabros.log.log
 import org.m0skit0.android.palabros.presentation.*
 import org.m0skit0.android.palabros.state.PlayGridState
 import org.m0skit0.android.palabros.usecase.OnKeyClickedUseCase
@@ -26,7 +28,8 @@ fun Application.initializeKoin() {
             keyboardModule,
             gridModule,
             stateModule,
-            useCaseModule
+            useCaseModule,
+            logModule
         )
     }.let {
         koin = it.koin
@@ -87,4 +90,9 @@ private val stateModule = module {
 val NAMED_ON_KEY_CLICKED_USE_CASE = named("NAMED_ON_KEY_CLICKED_USE_CASE")
 private val useCaseModule = module {
     single<OnKeyClickedUseCase>(NAMED_ON_KEY_CLICKED_USE_CASE) { { key -> onKeyClicked(key) } }
+}
+
+val NAMED_LOGGER = named("NAMED_LOGGER")
+private val logModule = module {
+    single<Logger>(NAMED_LOGGER) { { message -> log(message) } }
 }

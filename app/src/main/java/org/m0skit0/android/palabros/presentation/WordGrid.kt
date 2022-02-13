@@ -22,11 +22,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
 import org.m0skit0.android.palabros.di.koin
 import org.m0skit0.android.palabros.state.PlayGridState
+import org.m0skit0.android.palabros.state.TRIES
+import org.m0skit0.android.palabros.state.WORD_LENGTH
 
 typealias WordGrid = @Composable () -> Unit
-
-private const val WORD_LENGTH = 5
-private const val TRIES = 6
 
 @ExperimentalFoundationApi
 @Preview
@@ -56,7 +55,8 @@ fun WordGrid(
                     cardPadding = cardPadding,
                     textPadding = textPadding,
                     fontSize = fontSize,
-                    index = index,
+                    row = index / 5,
+                    column = index % 5,
                     playGridState = playGridState
                 )
             }
@@ -69,7 +69,8 @@ fun WordGridLetter(
     cardPadding: Dp,
     textPadding: Dp,
     fontSize: TextUnit,
-    index: Int,
+    row: Int,
+    column: Int,
     playGridState: Flow<PlayGridState>
 ) {
     val state = playGridState.collectAsState(initial = PlayGridState())
@@ -77,7 +78,7 @@ fun WordGridLetter(
         modifier = Modifier.padding(cardPadding),
         backgroundColor = Color.LightGray,
     ) {
-        val letter = state.value.grid.getOrNull(index)?.uppercase() ?: ""
+        val letter = state.value.grid.getOrNull(row)?.getOrNull(column)?.uppercase() ?: ""
         Text(
             text = letter,
             fontSize = fontSize,
