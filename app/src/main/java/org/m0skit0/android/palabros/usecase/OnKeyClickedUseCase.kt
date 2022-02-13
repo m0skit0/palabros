@@ -34,8 +34,14 @@ private fun PlayGridState.addChar(key: Char): PlayGridState =
         else copy(grid = grid.dropLast(1).plusElement(currentRow.plusElement(key)))
     }
 
-private fun PlayGridState.checkWord(): PlayGridState = also {
-    grid.last().toCharArray().toString().also {
-        koin.get<Logger>(NAMED_LOGGER)(it)
+private fun PlayGridState.checkWord(): PlayGridState =
+    grid.last().toCharArray().concatToString().let { guess ->
+        koin.get<Logger>(NAMED_LOGGER)(guess)
+        if (guess == secretWord) win()
+        else nextWord()
     }
-}
+
+private fun PlayGridState.win(): PlayGridState = copy(isFinished = true, isWon = true)
+
+private fun PlayGridState.nextWord(): PlayGridState =
+    copy(grid = grid.plusElement(emptyList()))

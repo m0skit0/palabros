@@ -4,6 +4,8 @@ const val WORD_LENGTH = 5
 const val TRIES = 6
 
 data class PlayGridState(
+    val isFinished: Boolean = false,
+    val isWon: Boolean = false,
     val width: Int = WORD_LENGTH,
     val height: Int = TRIES,
     val secretWord: String = "dedos",
