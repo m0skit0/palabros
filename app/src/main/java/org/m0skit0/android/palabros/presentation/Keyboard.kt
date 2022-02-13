@@ -29,7 +29,7 @@ typealias KeyboardKeyText = @Composable (key: Char, textPadding: Dp, fontSize: T
 private val QWERTY = listOf(
     "qwertyuiop",
     "asdfghjklñ",
-    " zxcvbnm  ",
+    "⬅zxcvbnm ⎆",
 )
 
 @ExperimentalFoundationApi

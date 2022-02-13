@@ -12,6 +12,9 @@ fun onKeyClicked(
     state: MutableStateFlow<PlayGridState> = koin.get(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
     state.value = state.value.let { oldState ->
-        oldState.copy(grid = oldState.grid + key)
+        when (key) {
+            '⬅' -> oldState.copy(grid = oldState.grid.dropLast(1))
+            else -> oldState.copy(grid = oldState.grid + key)
+        }
     }
 }
