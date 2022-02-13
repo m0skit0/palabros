@@ -5,7 +5,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.Koin
@@ -14,6 +13,8 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import org.m0skit0.android.palabros.presentation.*
 import org.m0skit0.android.palabros.state.PlayGridState
+import org.m0skit0.android.palabros.usecase.OnKeyClickedUseCase
+import org.m0skit0.android.palabros.usecase.onKeyClicked
 
 lateinit var koin: Koin private set
 
@@ -25,6 +26,7 @@ fun Application.initializeKoin() {
             keyboardModule,
             gridModule,
             stateModule,
+            useCaseModule
         )
     }.let {
         koin = it.koin
@@ -37,14 +39,15 @@ val NAMED_KEYBOARD_KEY_TEXT = named("NAMED_KEYBOARD_KEY_TEXT")
 
 @ExperimentalFoundationApi
 private val keyboardModule = module {
-    single<Keyboard>(NAMED_KEYBOARD) { { Keyboard() } }
+    single<Keyboard>(NAMED_KEYBOARD) { { onKeyClick -> Keyboard(onKeyClick = onKeyClick) } }
     single<KeyboardKey>(NAMED_KEYBOARD_KEY) {
-        @Composable { key: Char, keyPadding: Dp, textPadding: Dp, fontSize: TextUnit ->
+        @Composable { key: Char, keyPadding: Dp, textPadding: Dp, fontSize: TextUnit, onClick: (Char) -> Unit ->
             KeyboardKeyCard(
                 key = key,
                 cardPadding = keyPadding,
                 textPadding = textPadding,
-                fontSize = fontSize
+                fontSize = fontSize,
+                onClick = onClick
             )
         }
     }
@@ -70,13 +73,18 @@ private val gridModule = module {
         }
     }
     single<PlayGrid>(NAMED_PLAY_GRID) {
-        @Composable {
-            PlayGrid()
+        @Composable { onKeyClick ->
+            PlayGrid(onKeyClick = onKeyClick)
         }
     }
 }
 
 val NAMED_PLAY_GRID_STATE_FLOW = named("NAMED_PLAY_GRID_STATE_FLOW")
 private val stateModule = module {
-    single<Flow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW) { MutableStateFlow(PlayGridState()) }
+    single(NAMED_PLAY_GRID_STATE_FLOW) { MutableStateFlow(PlayGridState()) }
+}
+
+val NAMED_ON_KEY_CLICKED_USE_CASE = named("NAMED_ON_KEY_CLICKED_USE_CASE")
+private val useCaseModule = module {
+    single<OnKeyClickedUseCase>(NAMED_ON_KEY_CLICKED_USE_CASE) { { key -> onKeyClicked(key) } }
 }

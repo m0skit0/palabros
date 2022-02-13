@@ -6,15 +6,24 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
+import org.koin.core.component.inject
+import org.m0skit0.android.palabros.di.NAMED_ON_KEY_CLICKED_USE_CASE
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID
+import org.m0skit0.android.palabros.usecase.OnKeyClickedUseCase
 
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity(), KoinComponent {
 
+    private val onKeyClickedUseCase: OnKeyClickedUseCase by inject(NAMED_ON_KEY_CLICKED_USE_CASE)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            get<PlayGrid>(NAMED_PLAY_GRID)()
+            get<PlayGrid>(NAMED_PLAY_GRID)(::onKeyClicked)
         }
+    }
+
+    private fun onKeyClicked(key: Char) {
+        onKeyClickedUseCase(key)
     }
 }

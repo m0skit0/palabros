@@ -1,6 +1,5 @@
 package org.m0skit0.android.palabros.presentation
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
 import org.m0skit0.android.palabros.di.koin
 import org.m0skit0.android.palabros.state.PlayGridState
@@ -44,7 +44,7 @@ fun WordGrid(
     cardPadding: Dp = 4.dp,
     textPadding: Dp = 20.dp,
     fontSize: TextUnit = 16.sp,
-    playGridState: Flow<PlayGridState> = koin.get(NAMED_PLAY_GRID_STATE_FLOW)
+    playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(wordLength),
@@ -56,8 +56,7 @@ fun WordGrid(
                     cardPadding = cardPadding,
                     textPadding = textPadding,
                     fontSize = fontSize,
-                    column = index % WORD_LENGTH,
-                    row = index / WORD_LENGTH,
+                    index = index,
                     playGridState = playGridState
                 )
             }
@@ -70,8 +69,7 @@ fun WordGridLetter(
     cardPadding: Dp,
     textPadding: Dp,
     fontSize: TextUnit,
-    row: Int,
-    column: Int,
+    index: Int,
     playGridState: Flow<PlayGridState>
 ) {
     val state = playGridState.collectAsState(initial = PlayGridState())
@@ -79,8 +77,7 @@ fun WordGridLetter(
         modifier = Modifier.padding(cardPadding),
         backgroundColor = Color.LightGray,
     ) {
-        val letter = state.value.grid.getOrNull(row)?.getOrNull(column)?.uppercase() ?: ""
-        Log.d("HEY", "State $state, Row $row, Column $column, Letter $letter")
+        val letter = state.value.grid.getOrNull(index)?.uppercase() ?: ""
         Text(
             text = letter,
             fontSize = fontSize,

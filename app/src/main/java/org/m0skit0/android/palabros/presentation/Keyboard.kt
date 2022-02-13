@@ -1,15 +1,12 @@
 package org.m0skit0.android.palabros.presentation
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -25,8 +22,8 @@ import org.m0skit0.android.palabros.di.NAMED_KEYBOARD_KEY
 import org.m0skit0.android.palabros.di.NAMED_KEYBOARD_KEY_TEXT
 import org.m0skit0.android.palabros.di.koin
 
-typealias Keyboard = @Composable () -> Unit
-typealias KeyboardKey = @Composable (key: Char, keyPadding: Dp, textPadding: Dp, fontSize: TextUnit) -> Unit
+typealias Keyboard = @Composable (onKeyClick: (Char) -> Unit) -> Unit
+typealias KeyboardKey = @Composable (key: Char, keyPadding: Dp, textPadding: Dp, fontSize: TextUnit, onClick: (Char) -> Unit) -> Unit
 typealias KeyboardKeyText = @Composable (key: Char, textPadding: Dp, fontSize: TextUnit) -> Unit
 
 private val QWERTY = listOf(
@@ -39,7 +36,7 @@ private val QWERTY = listOf(
 @Preview
 @Composable
 fun KeyboardPreview() {
-    Keyboard()
+    Keyboard(onKeyClick = {})
 }
 
 @ExperimentalFoundationApi
@@ -50,7 +47,8 @@ fun Keyboard(
     keyPadding: Dp = 4.dp,
     textPadding: Dp = 4.dp,
     fontSize: TextUnit = 16.sp,
-    keyboardKey: KeyboardKey = koin.get(NAMED_KEYBOARD_KEY)
+    keyboardKey: KeyboardKey = koin.get(NAMED_KEYBOARD_KEY),
+    onKeyClick: (Char) -> Unit
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(layout.first().length),
@@ -58,42 +56,25 @@ fun Keyboard(
     ) {
         layout.forEach { line ->
             items(items = line.toCharArray().asList()) { key ->
-                keyboardKey(key, keyPadding, textPadding, fontSize)
+                keyboardKey(key, keyPadding, textPadding, fontSize, onKeyClick)
             }
         }
     }
 }
 
 @Composable
-fun KeyboardKeyButton(
-    key: Char,
-    buttonPadding: Dp,
-    textPadding: Dp,
-    fontSize: TextUnit,
-    keyboardKeyText: KeyboardKeyText = koin.get(NAMED_KEYBOARD_KEY_TEXT)
-) {
-    Button(
-        modifier = Modifier
-            .padding(buttonPadding)
-            .background(Color.LightGray),
-        onClick = { Log.d("HEY", "HEY") }
-    ) {
-        keyboardKeyText(key, textPadding, fontSize)
-    }
-}
-
-@Composable
 fun KeyboardKeyCard(
     key: Char,
-    cardPadding: Dp,
-    textPadding: Dp,
-    fontSize: TextUnit,
-    keyboardKeyText: KeyboardKeyText = koin.get(NAMED_KEYBOARD_KEY_TEXT)
+    cardPadding: Dp = 4.dp,
+    textPadding: Dp = 4.dp,
+    fontSize: TextUnit = 16.sp,
+    keyboardKeyText: KeyboardKeyText = koin.get(NAMED_KEYBOARD_KEY_TEXT),
+    onClick: (Char) -> Unit
 ) {
     Card(
         modifier = Modifier
             .padding(cardPadding)
-            .clickable { Log.d("HEY", "HEY") },
+            .clickable { onClick(key) },
         backgroundColor = Color.LightGray,
     ) {
         keyboardKeyText(key, textPadding, fontSize)    }
