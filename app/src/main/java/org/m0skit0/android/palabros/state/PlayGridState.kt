@@ -10,4 +10,7 @@ data class PlayGridState(
     val height: Int = TRIES,
     val secretWord: String = "dedos",
     val grid: List<List<Char>> = listOf(emptyList()),
+    val greenLetters: List<Char> = emptyList(),
+    val yellowLetters: List<Char> = emptyList(),
+    val redLetters: List<Char> = emptyList(),
 )
