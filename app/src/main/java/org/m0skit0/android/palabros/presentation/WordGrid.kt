@@ -25,8 +25,6 @@ import org.m0skit0.android.palabros.state.PlayGridState
 import org.m0skit0.android.palabros.state.TRIES
 import org.m0skit0.android.palabros.state.WORD_LENGTH
 
-typealias WordGrid = @Composable () -> Unit
-
 @ExperimentalFoundationApi
 @Preview
 @Composable

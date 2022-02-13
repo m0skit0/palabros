@@ -18,13 +18,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.m0skit0.android.palabros.di.NAMED_KEYBOARD_KEY
-import org.m0skit0.android.palabros.di.NAMED_KEYBOARD_KEY_TEXT
-import org.m0skit0.android.palabros.di.koin
-
-typealias Keyboard = @Composable (onKeyClick: (Char) -> Unit) -> Unit
-typealias KeyboardKey = @Composable (key: Char, keyPadding: Dp, textPadding: Dp, fontSize: TextUnit, onClick: (Char) -> Unit) -> Unit
-typealias KeyboardKeyText = @Composable (key: Char, textPadding: Dp, fontSize: TextUnit) -> Unit
 
 private val QWERTY = listOf(
     "qwertyuiop",
@@ -47,7 +40,6 @@ fun Keyboard(
     keyPadding: Dp = 4.dp,
     textPadding: Dp = 4.dp,
     fontSize: TextUnit = 16.sp,
-    keyboardKey: KeyboardKey = koin.get(NAMED_KEYBOARD_KEY),
     onKeyClick: (Char) -> Unit
 ) {
     LazyVerticalGrid(
@@ -56,7 +48,7 @@ fun Keyboard(
     ) {
         layout.forEach { line ->
             items(items = line.toCharArray().asList()) { key ->
-                keyboardKey(key, keyPadding, textPadding, fontSize, onKeyClick)
+                KeyboardKeyCard(key, keyPadding, textPadding, fontSize, onClick = onKeyClick)
             }
         }
     }
@@ -68,7 +60,6 @@ fun KeyboardKeyCard(
     cardPadding: Dp = 4.dp,
     textPadding: Dp = 4.dp,
     fontSize: TextUnit = 16.sp,
-    keyboardKeyText: KeyboardKeyText = koin.get(NAMED_KEYBOARD_KEY_TEXT),
     onClick: (Char) -> Unit
 ) {
     Card(
@@ -77,7 +68,7 @@ fun KeyboardKeyCard(
             .clickable { onClick(key) },
         backgroundColor = Color.LightGray,
     ) {
-        keyboardKeyText(key, textPadding, fontSize)    }
+        KeyboardKeyText(key, textPadding, fontSize)    }
 }
 
 @Composable
