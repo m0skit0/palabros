@@ -72,14 +72,13 @@ fun WordGridLetter(
     playGridState: Flow<PlayGridState>
 ) {
     val state = playGridState.collectAsState(initial = PlayGridState())
-    val letter = state.value.grid.getOrNull(row)?.getOrNull(column) ?: ' '
     Card(
         modifier = Modifier.padding(cardPadding),
-        backgroundColor = state.value.colorFor(row, letter)
+        backgroundColor = state.value.colorFor(row, column)
     ) {
-
+        val letter = state.value.grid.getOrNull(row)?.getOrNull(column)?.uppercase() ?: ""
         Text(
-            text = letter.uppercase(),
+            text = letter,
             fontSize = fontSize,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(textPadding),
@@ -87,6 +86,6 @@ fun WordGridLetter(
     }
 }
 
-private fun PlayGridState.colorFor(row: Int, letter: Char): Color =
+private fun PlayGridState.colorFor(row: Int, column: Int): Color =
     if (grid.lastIndex == row) Color.LightGray
-    else colorForKey(letter) // Does not work correctly
+    else gridLetterColors.getOrNull(row)?.getOrNull(column) ?: Color.LightGray

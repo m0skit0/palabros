@@ -1,5 +1,7 @@
 package org.m0skit0.android.palabros.state
 
+import androidx.compose.ui.graphics.Color
+
 const val WORD_LENGTH = 5
 const val TRIES = 6
 
@@ -13,4 +15,5 @@ data class PlayGridState(
     val greenLetters: List<Char> = emptyList(),
     val yellowLetters: List<Char> = emptyList(),
     val redLetters: List<Char> = emptyList(),
+    val gridLetterColors: List<List<Color>> = emptyList()
 )

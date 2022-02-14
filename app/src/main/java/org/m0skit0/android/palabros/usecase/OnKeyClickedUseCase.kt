@@ -1,5 +1,6 @@
 package org.m0skit0.android.palabros.usecase
 
+import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
 import org.m0skit0.android.palabros.di.koin
@@ -43,14 +44,14 @@ private fun PlayGridState.lose(): PlayGridState = copy(isFinished = true)
 
 private fun PlayGridState.nextWord(): PlayGridState =
     if (grid.size == height) lose()
-    else {
+    else
         copy(
             grid = grid.plusElement(emptyList()),
             greenLetters = greenLetters.plus(greenLetters()),
             yellowLetters = yellowLetters.plus(yellowLetters()),
             redLetters = redLetters.plus(redLetters()),
+            gridLetterColors = gridLetterColors.plusElement(wordLetterColors())
         )
-    }
 
 private fun PlayGridState.greenLetters(): List<Char> =
     grid.last().let { lastWord ->
@@ -70,5 +71,14 @@ private fun PlayGridState.redLetters(): List<Char> =
     grid.last().let { lastWord ->
         lastWord.filterNot { letter ->
             secretWord.contains(letter)
+        }
+    }
+
+private fun PlayGridState.wordLetterColors(): List<Color> =
+    grid.last().mapIndexed { index, letter ->
+        when {
+            secretWord[index] == letter -> Color.Green
+            secretWord.contains(letter) -> Color.Yellow
+            else -> Color.Red
         }
     }
