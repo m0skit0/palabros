@@ -15,7 +15,7 @@ import org.m0skit0.android.palabros.state.PlayGridState
 @Composable
 fun PlayGrid(
     onKeyClick: (Char) -> Unit,
-    playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW)
+    playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW),
 ) {
     val state = playGridState.collectAsState(initial = PlayGridState())
     state.value.let { currentState ->

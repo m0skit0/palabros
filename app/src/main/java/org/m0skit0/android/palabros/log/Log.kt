@@ -5,5 +5,9 @@ import android.util.Log
 typealias Logger = (message: String) -> Unit
 
 fun log(message: String) {
-    Log.d("LOG", message)
+    Log.d("PALABROS", message)
+}
+
+fun log(exception: Exception) {
+    Log.e("PALABROS", "Error", exception)
 }
