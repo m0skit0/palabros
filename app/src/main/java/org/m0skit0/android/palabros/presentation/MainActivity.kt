@@ -11,7 +11,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
 import org.koin.core.component.inject
@@ -31,7 +30,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // TODO Refactor outside of activity
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             setContent {
                 Box(
                     contentAlignment = Alignment.Center,
@@ -43,6 +42,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
             randomWordUseCase().let { secretWord ->
                 get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW).let { state ->
                     state.value = state.value.copy(secretWord = secretWord)
+                    toast(secretWord)
                 }
             }
             setContent {

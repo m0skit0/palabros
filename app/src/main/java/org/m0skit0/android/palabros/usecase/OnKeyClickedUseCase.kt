@@ -39,7 +39,12 @@ private fun PlayGridState.checkWord(): PlayGridState =
         else nextWord()
     }
 
-private fun PlayGridState.win(): PlayGridState = copy(isFinished = true, isWon = true)
+private fun PlayGridState.win(): PlayGridState = copy(
+    isFinished = true,
+    isWon = true,
+    gridLetterColors = gridLetterColors.plusElement(wordLetterColors())
+)
+
 private fun PlayGridState.lose(): PlayGridState = copy(isFinished = true)
 
 private fun PlayGridState.nextWord(): PlayGridState =
