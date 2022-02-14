@@ -17,11 +17,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PlayGrid(onKeyClick = ::onKeyClicked)
+            PlayGrid(onKeyClick = onKeyClickedUseCase)
         }
-    }
-
-    private fun onKeyClicked(key: Char) {
-        onKeyClickedUseCase(key)
     }
 }
