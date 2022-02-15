@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
@@ -21,14 +22,15 @@ fun PlayGrid(
     onKeyClick: (Char) -> Unit,
     playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW),
 ) {
+    val context = LocalContext.current
     val state = playGridState.collectAsState(initial = PlayGridState())
     state.value.let { currentState ->
         if (currentState.isFinished) {
-            if (currentState.isWon) Toast("Ganaste :D")
-            else Toast("Perdiste :(")
+            if (currentState.isWon) context.toast("Ganaste :D")
+            else context.toast("Perdiste :(")
         }
         else if (currentState.isUnknownWord) {
-            Toast("Palabra desconocida")
+            context.toast("Palabra desconocida")
         }
         if (currentState.isLoading) {
             Box(
@@ -38,7 +40,7 @@ fun PlayGrid(
                 CircularProgressIndicator()
             }
         } else {
-            Toast(currentState.secretWord)
+            if (currentState.showSecretWord) context.toast(currentState.secretWord)
             Column {
                 WordGrid()
                 Keyboard(onKeyClick = onKeyClick)
