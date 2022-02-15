@@ -11,7 +11,7 @@ typealias JsonReader = (InputStream) -> List<String>?
 private var cachedWords: List<String> = emptyList()
 
 fun loadWordsRepository(
-    context: Context,
+    context: Context = koin.get(),
     jsonReader: JsonReader = koin.get(NAMED_JSON_READER)
 ): List<String> = run {
     if (cachedWords.isEmpty()) {

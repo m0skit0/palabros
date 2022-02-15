@@ -46,7 +46,7 @@ val NAMED_ON_KEY_CLICKED_USE_CASE = named("NAMED_ON_KEY_CLICKED_USE_CASE")
 val NAMED_RANDOM_WORD_USE_CASE = named("NAMED_RANDOM_WORD_USE_CASE")
 private val useCaseModule = module {
     single<OnKeyClickedUseCase>(NAMED_ON_KEY_CLICKED_USE_CASE) { { key -> onKeyClicked(key) } }
-    single<RandomWordUseCase>(NAMED_RANDOM_WORD_USE_CASE) { { randomWordUseCase(get()) } }
+    single<RandomWordUseCase>(NAMED_RANDOM_WORD_USE_CASE) { { randomWordUseCase() } }
 }
 
 val NAMED_LOGGER = named("NAMED_LOGGER")
@@ -57,6 +57,6 @@ private val logModule = module {
 val NAMED_LOAD_WORDS_REPOSITORY = named("NAMED_LOAD_WORDS_REPOSITORY")
 val NAMED_JSON_READER = named("NAMED_JSON_READER")
 private val dataModule = module {
-    single<LoadWordsRepository>(NAMED_LOAD_WORDS_REPOSITORY) { { context -> loadWordsRepository(context) } }
+    single<LoadWordsRepository>(NAMED_LOAD_WORDS_REPOSITORY) { { loadWordsRepository() } }
     factory<JsonReader>(NAMED_JSON_READER) { { inputStream ->  Klaxon().parseArray(inputStream) } }
 }

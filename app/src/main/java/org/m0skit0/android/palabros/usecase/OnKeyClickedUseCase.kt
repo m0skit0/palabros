@@ -43,6 +43,7 @@ private fun PlayGridState.checkWord(): PlayGridState =
 private fun PlayGridState.win(): PlayGridState = copy(
     isFinished = true,
     isWon = true,
+    grid = grid.plusElement(emptyList()),
     gridLetterColors = gridLetterColors.plusElement(wordLetterColors())
 )
 

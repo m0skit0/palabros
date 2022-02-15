@@ -14,7 +14,7 @@ import org.m0skit0.android.palabros.state.PlayGridState
 typealias RandomWordUseCase = suspend () -> Unit
 
 suspend fun randomWordUseCase(
-    context: Context,
+    context: Context = koin.get(),
     loadWordsRepository: LoadWordsRepository = koin.get(NAMED_LOAD_WORDS_REPOSITORY),
     playGridState: MutableStateFlow<PlayGridState> = koin.get(NAMED_PLAY_GRID_STATE_FLOW),
     dispatcher: CoroutineDispatcher = Dispatchers.IO
