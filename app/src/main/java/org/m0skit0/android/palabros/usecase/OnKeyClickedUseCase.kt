@@ -19,14 +19,14 @@ fun onKeyClicked(
             '⎆' -> currentState.checkWord()
             else -> currentState.addChar(key)
         }
-    }
+    }.copy(showSecretWord = false)
 }
 
 private fun PlayGridState.deleteLastChar(): PlayGridState =
     grid.last().let { currentRow ->
         if (currentRow.isEmpty()) this
         else copy(grid = grid.dropLast(1).plusElement(currentRow.dropLast(1)))
-    }
+    }.copy(isUnknownWord = false)
 
 private fun PlayGridState.addChar(key: Char): PlayGridState =
     grid.last().let { currentRow ->
@@ -52,10 +52,14 @@ private fun PlayGridState.win(): PlayGridState = copy(
     isFinished = true,
     isWon = true,
     grid = grid.plusElement(emptyList()),
-    gridLetterColors = gridLetterColors.plusElement(wordLetterColors())
+    gridLetterColors = gridLetterColors.plusElement(wordLetterColors()),
 )
 
-private fun PlayGridState.lose(): PlayGridState = copy(isFinished = true)
+private fun PlayGridState.lose(): PlayGridState = copy(
+    isFinished = true,
+    grid = grid.plusElement(emptyList()),
+    gridLetterColors = gridLetterColors.plusElement(wordLetterColors()),
+)
 
 private fun PlayGridState.nextWord(): PlayGridState =
     if (grid.size == height) lose()
