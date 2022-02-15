@@ -27,7 +27,9 @@ fun PlayGrid(
     state.value.let { currentState ->
         if (currentState.isFinished) {
             if (currentState.isWon) context.toast("Ganaste :D")
-            else context.toast("Perdiste :(")
+            else {
+                context.toast("Perdiste :( La palabra era ${currentState.secretWord}")
+            }
         }
         else if (currentState.isUnknownWord) {
             context.toast("Palabra desconocida")
@@ -40,7 +42,6 @@ fun PlayGrid(
                 CircularProgressIndicator()
             }
         } else {
-            if (currentState.showSecretWord) context.toast(currentState.secretWord)
             Column {
                 WordGrid()
                 Keyboard(onKeyClick = onKeyClick)
