@@ -1,5 +1,6 @@
 package org.m0skit0.android.palabros.presentation
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity(), KoinComponent {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT // TODO
         lifecycleScope.launchWhenCreated { randomWordUseCase() }
         setContent {
             PlayGrid(onKeyClick = onKeyClickedUseCase)
