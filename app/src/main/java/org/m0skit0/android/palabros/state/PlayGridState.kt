@@ -17,4 +17,5 @@ data class PlayGridState(
     val yellowLetters: List<Char> = emptyList(),
     val redLetters: List<Char> = emptyList(),
     val gridLetterColors: List<List<Color>> = emptyList(),
+    val wordDictionary: List<String> = emptyList(),
 )
