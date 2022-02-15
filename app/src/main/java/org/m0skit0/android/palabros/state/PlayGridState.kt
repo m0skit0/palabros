@@ -6,6 +6,7 @@ const val WORD_LENGTH = 5
 const val TRIES = 6
 
 data class PlayGridState(
+    val isUnknownWord: Boolean = false,
     val isLoading: Boolean = true,
     val isFinished: Boolean = false,
     val isWon: Boolean = false,

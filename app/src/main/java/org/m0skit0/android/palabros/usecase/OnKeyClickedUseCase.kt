@@ -36,9 +36,17 @@ private fun PlayGridState.addChar(key: Char): PlayGridState =
 
 private fun PlayGridState.checkWord(): PlayGridState =
     grid.last().toCharArray().concatToString().let { guess ->
-        if (guess == secretWord) win()
-        else nextWord()
+        if (!wordDictionary.contains(guess)) unknownWord()
+        else {
+            copy(isUnknownWord = false).run {
+                if (guess == secretWord) win()
+                else nextWord()
+            }
+        }
     }
+
+private fun PlayGridState.unknownWord(): PlayGridState =
+    copy(isUnknownWord = true)
 
 private fun PlayGridState.win(): PlayGridState = copy(
     isFinished = true,

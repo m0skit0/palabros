@@ -24,8 +24,11 @@ fun PlayGrid(
     val state = playGridState.collectAsState(initial = PlayGridState())
     state.value.let { currentState ->
         if (currentState.isFinished) {
-            if (currentState.isWon) Toast("You won!")
-            else Toast("You lost!")
+            if (currentState.isWon) Toast("Ganaste :D")
+            else Toast("Perdiste :(")
+        }
+        else if (currentState.isUnknownWord) {
+            Toast("Palabra desconocida")
         }
         if (currentState.isLoading) {
             Box(
