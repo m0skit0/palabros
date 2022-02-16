@@ -1,5 +1,6 @@
 package org.m0skit0.android.palabros.theme
 
+import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
@@ -16,3 +17,16 @@ val LightColors = lightColors(
     onSecondary = Color.White,
     error = Red800
 )
+
+val Red200 = Color(0xfff297a2)
+val Red300 = Color(0xffea6d7e)
+
+val DarkColors = darkColors(
+    primary = Red300,
+    primaryVariant = Red700,
+    onPrimary = Color.Black,
+    secondary = Red300,
+    onSecondary = Color.Black,
+    error = Red200
+)
+
