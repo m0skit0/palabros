@@ -56,8 +56,10 @@ dependencies {
 
     implementation 'androidx.activity:activity-compose:1.4.0'
     implementation 'androidx.compose.material:material:1.1.0'
+    implementation "androidx.compose.material:material-icons-extended:1.1.0"
     implementation 'androidx.compose.animation:animation:1.1.0'
     implementation 'androidx.compose.ui:ui-tooling:1.1.0'
+    implementation "androidx.compose.ui:ui-tooling-preview:1.1.0"
 
     implementation 'com.beust:klaxon:5.5'
 
