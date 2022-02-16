@@ -77,7 +77,7 @@ fun WordGridLetter(
         val letter = state.value.grid.getOrNull(row)?.getOrNull(column)?.uppercase() ?: ""
         Text(
             text = letter,
-            style = MaterialTheme.typography.button,
+            style = MaterialTheme.typography.h5,
             color = GridTextColor,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(textPadding),

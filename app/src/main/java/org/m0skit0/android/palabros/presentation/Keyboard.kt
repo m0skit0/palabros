@@ -94,7 +94,7 @@ fun KeyboardKeyText(
 ) {
     Text(
         text = key.uppercase(),
-        style = MaterialTheme.typography.button,
+        style = MaterialTheme.typography.h6,
         textAlign = TextAlign.Center,
         color = KeyTextColor,
         modifier = Modifier.padding(textPadding),
