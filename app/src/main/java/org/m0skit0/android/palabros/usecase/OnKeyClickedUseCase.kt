@@ -19,7 +19,7 @@ fun onKeyClicked(
             '⎆' -> currentState.checkWord()
             else -> currentState.addChar(key)
         }
-    }.copy(showSecretWord = false)
+    }
 }
 
 private fun PlayGridState.deleteLastChar(): PlayGridState =
