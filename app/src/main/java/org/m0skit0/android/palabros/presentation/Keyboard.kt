@@ -78,10 +78,12 @@ fun KeyboardKeyCard(
     onClick: (Char) -> Unit,
     state: PlayGridState,
 ) {
+    val modifier = Modifier.padding(cardPadding).let {
+        if (key == ' ') it
+        else it.clickable { onClick(key) }
+    }
     Card(
-        modifier = Modifier
-            .padding(cardPadding)
-            .clickable { onClick(key) },
+        modifier = modifier,
         backgroundColor = state.colorForKey(key),
     ) {
         KeyboardKeyText(key, textPadding, fontSize)
@@ -104,6 +106,7 @@ fun KeyboardKeyText(
 
 private fun PlayGridState.colorForKey(key: Char): Color =
     when {
+        (key == ' ') -> Color.Transparent
         greenLetters.contains(key) -> Color.Green
         yellowLetters.contains(key) -> Color.Yellow
         redLetters.contains(key) -> Color.Red
