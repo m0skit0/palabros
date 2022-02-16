@@ -57,7 +57,7 @@ val PalabrosTypography = Typography(
     button = TextStyle(
         fontFamily = Montserrat,
         fontWeight = FontWeight.W500,
-        fontSize = 14.sp
+        fontSize = 16.sp
     ),
     caption = TextStyle(
         fontFamily = Montserrat,

@@ -5,6 +5,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
 import org.m0skit0.android.palabros.di.koin
 import org.m0skit0.android.palabros.state.PlayGridState
+import org.m0skit0.android.palabros.theme.CorrectLetterColor
+import org.m0skit0.android.palabros.theme.MisplacedLetterColor
+import org.m0skit0.android.palabros.theme.WrongLetterColor
 
 typealias OnKeyClickedUseCase = (key: Char) -> Unit
 
@@ -96,8 +99,8 @@ private fun PlayGridState.redLetters(): List<Char> =
 private fun PlayGridState.wordLetterColors(): List<Color> =
     grid.last().mapIndexed { index, letter ->
         when {
-            secretWord[index] == letter -> Color.Green
-            secretWord.contains(letter) -> Color.Yellow
-            else -> Color.Red
+            secretWord[index] == letter -> CorrectLetterColor
+            secretWord.contains(letter) -> MisplacedLetterColor
+            else -> WrongLetterColor
         }
     }
