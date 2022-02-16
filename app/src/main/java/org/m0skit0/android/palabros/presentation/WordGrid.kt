@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -45,7 +46,7 @@ fun WordGrid(
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(wordLength),
-        contentPadding = PaddingValues(gridPadding)
+        contentPadding = PaddingValues(gridPadding),
     ) {
         repeat(wordLength * tries) { index ->
             item {
@@ -71,6 +72,7 @@ fun WordGridLetter(
 ) {
     val state = playGridState.collectAsState(initial = PlayGridState())
     Card(
+        shape = CutCornerShape(topStart = 20.dp),
         modifier = Modifier.padding(cardPadding),
         backgroundColor = state.value.colorFor(row, column)
     ) {
