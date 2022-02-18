@@ -35,7 +35,10 @@ private val QWERTY = listOf(
 @Preview
 @Composable
 fun KeyboardPreview() {
-    Keyboard(onKeyClick = {})
+    Keyboard(
+        onKeyClick = {},
+        playGridState = MutableStateFlow(PlayGridState())
+    )
 }
 
 @ExperimentalFoundationApi
