@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+apply from: 'signing.config.gradle'
+
 android {
     compileSdk 31
 
@@ -18,10 +20,9 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
         }
         release {
-            minifyEnabled true
+            minifyEnabled false
         }
     }
 
