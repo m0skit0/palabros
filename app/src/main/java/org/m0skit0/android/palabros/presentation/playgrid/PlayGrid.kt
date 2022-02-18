@@ -1,4 +1,4 @@
-package org.m0skit0.android.palabros.presentation
+package org.m0skit0.android.palabros.presentation.playgrid
 
 import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -14,8 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.m0skit0.android.palabros.R
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
 import org.m0skit0.android.palabros.di.koin
+import org.m0skit0.android.palabros.presentation.Loading
+import org.m0skit0.android.palabros.presentation.toast
 import org.m0skit0.android.palabros.state.PlayGridState
 
 @ExperimentalFoundationApi
@@ -52,13 +55,13 @@ private fun PlayGridColumn(onKeyClick: (Char) -> Unit) {
 
 private fun PlayGridState.checkVictoryConditions(context: Context) {
     if (isFinished) {
-        if (isWon) context.toast("Ganaste :D")
-        else context.toast("Perdiste :( La palabra era $secretWord")
+        if (isWon) context.toast(R.string.win)
+        else context.toast(R.string.lost, secretWord)
     }
 }
 
 private fun PlayGridState.checkUnknownWord(context: Context) {
     if (isUnknownWord) {
-        context.toast("Palabra desconocida")
+        context.toast(R.string.word_not_found)
     }
 }

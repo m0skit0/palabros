@@ -1,4 +1,4 @@
-package org.m0skit0.android.palabros.presentation
+package org.m0skit0.android.palabros.presentation.playgrid
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
