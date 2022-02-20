@@ -50,7 +50,7 @@ fun PlayGrid(
             onKeyClick = onKeyClick,
             playGridState = playGridState,
         )
-        CheckVictoryConditions()
+        CheckVictoryConditions(onReset)
         checkUnknownWord(LocalContext.current)
     }
 }
