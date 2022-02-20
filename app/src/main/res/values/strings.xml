@@ -8,4 +8,5 @@
     <string name="help_red">Letra no existe en la palabra</string>
     <string name="help_yellow">Letra en posición incorrecta</string>
     <string name="help_green">Letra correcta</string>
+    <string name="again">Otra!</string>
 </resources>

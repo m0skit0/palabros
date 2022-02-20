@@ -33,7 +33,6 @@ import org.m0skit0.android.palabros.theme.HelpSymbolColor
 @Composable
 fun PlayGridPreview() {
     PlayGridColumn(
-        onKeyClick = {},
         playGridState = MutableStateFlow(PlayGridState())
     )
 }
@@ -41,24 +40,25 @@ fun PlayGridPreview() {
 @ExperimentalFoundationApi
 @Composable
 fun PlayGrid(
-    onKeyClick: (Char) -> Unit,
+    onKeyClick: (Char) -> Unit = {},
+    onReset: () -> Unit = {},
     playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW),
 ) {
     playGridState.collectAsState(initial = PlayGridState()).value.run {
-        checkVictoryConditions(LocalContext.current)
-        checkUnknownWord(LocalContext.current)
         if (isLoading) Loading()
         else PlayGridColumn(
             onKeyClick = onKeyClick,
             playGridState = playGridState,
         )
+        CheckVictoryConditions()
+        checkUnknownWord(LocalContext.current)
     }
 }
 
 @ExperimentalFoundationApi
 @Composable
 private fun PlayGridColumn(
-    onKeyClick: (Char) -> Unit,
+    onKeyClick: (Char) -> Unit = {},
     playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
     Column(
@@ -82,10 +82,11 @@ private fun PlayGridColumn(
     }
 }
 
-private fun PlayGridState.checkVictoryConditions(context: Context) {
+@Composable
+private fun PlayGridState.CheckVictoryConditions(onReset: () -> Unit) {
     if (isFinished) {
-        if (isWon) context.toast(R.string.win)
-        else context.toast(R.string.lost, secretWord)
+        if (isWon) WinSnackbar(onTryAgain = onReset)
+        else LostSnackbar(secretWord = secretWord, onTryAgain = onReset)
     }
 }
 
