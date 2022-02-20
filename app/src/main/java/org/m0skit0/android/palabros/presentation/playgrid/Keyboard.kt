@@ -25,10 +25,14 @@ import org.m0skit0.android.palabros.di.koin
 import org.m0skit0.android.palabros.state.PlayGridState
 import org.m0skit0.android.palabros.theme.*
 
+const val BACKSPACE = '⬅'
+const val DELETE_WORD = '⇍'
+const val ENTER = '⎆'
+
 private val QWERTY = listOf(
     "qwertyuiop",
     "asdfghjklñ",
-    "⬅⇦zxcvbnm⎆",
+    "${BACKSPACE}${DELETE_WORD}zxcvbnm${ENTER}",
 )
 
 @ExperimentalFoundationApi
@@ -78,12 +82,8 @@ fun KeyboardKeyCard(
     onClick: (Char) -> Unit,
     state: PlayGridState,
 ) {
-    val modifier = Modifier.padding(cardPadding).let {
-        if (key == ' ') it
-        else it.clickable { onClick(key) }
-    }
     Card(
-        modifier = modifier,
+        modifier = Modifier.padding(cardPadding).clickable { onClick(key) },
         backgroundColor = state.colorForKey(key),
     ) {
         KeyboardKeyText(key, textPadding)

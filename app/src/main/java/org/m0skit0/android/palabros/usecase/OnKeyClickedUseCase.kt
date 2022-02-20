@@ -4,6 +4,9 @@ import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
 import org.m0skit0.android.palabros.di.koin
+import org.m0skit0.android.palabros.presentation.playgrid.BACKSPACE
+import org.m0skit0.android.palabros.presentation.playgrid.DELETE_WORD
+import org.m0skit0.android.palabros.presentation.playgrid.ENTER
 import org.m0skit0.android.palabros.state.PlayGridState
 import org.m0skit0.android.palabros.theme.CorrectLetterColor
 import org.m0skit0.android.palabros.theme.MisplacedLetterColor
@@ -18,9 +21,9 @@ fun onKeyClicked(
     state.value = state.value.let { currentState ->
         if (currentState.isFinished) return
         when (key) {
-            '⬅' -> currentState.deleteLastChar()
-            '⇦' -> currentState.deleteWord()
-            '⎆' -> currentState.checkWord()
+            BACKSPACE -> currentState.deleteLastChar()
+            DELETE_WORD -> currentState.deleteWord()
+            ENTER -> currentState.checkWord()
             else -> currentState.addChar(key)
         }
     }

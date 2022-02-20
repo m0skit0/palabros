@@ -71,7 +71,13 @@ private fun PlayGridColumn(
             playGridState = playGridState,
         )
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    start = 5.dp,
+                    end = 5.dp,
+                    bottom = 20.dp
+                ),
             contentAlignment = Alignment.BottomCenter,
         ) {
             Keyboard(
