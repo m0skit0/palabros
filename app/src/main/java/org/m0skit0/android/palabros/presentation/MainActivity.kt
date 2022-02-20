@@ -13,14 +13,12 @@ import org.m0skit0.android.palabros.di.NAMED_RANDOM_WORD_USE_CASE
 import org.m0skit0.android.palabros.presentation.playgrid.PlayGrid
 import org.m0skit0.android.palabros.theme.PalabrosTheme
 import org.m0skit0.android.palabros.usecase.OnKeyClickedUseCase
-import org.m0skit0.android.palabros.usecase.OnLongKeyClickedUseCase
 import org.m0skit0.android.palabros.usecase.RandomWordUseCase
 
 @ExperimentalFoundationApi
 class MainActivity : ComponentActivity(), KoinComponent {
 
     private val onKeyClickedUseCase: OnKeyClickedUseCase by inject(NAMED_ON_KEY_CLICKED_USE_CASE)
-    private val onLongKeyClickedUseCase: OnLongKeyClickedUseCase by inject(NAMED_ON_KEY_CLICKED_USE_CASE)
     private val randomWordUseCase: RandomWordUseCase by inject(NAMED_RANDOM_WORD_USE_CASE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +29,6 @@ class MainActivity : ComponentActivity(), KoinComponent {
             PalabrosTheme {
                 PlayGrid(
                     onKeyClick = onKeyClickedUseCase,
-                    onLongKeyClick = onLongKeyClickedUseCase
                 )
             }
         }

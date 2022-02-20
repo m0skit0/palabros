@@ -19,11 +19,15 @@ fun onKeyClicked(
         if (currentState.isFinished) return
         when (key) {
             '⬅' -> currentState.deleteLastChar()
+            '⇦' -> currentState.deleteWord()
             '⎆' -> currentState.checkWord()
             else -> currentState.addChar(key)
         }
     }
 }
+
+private fun PlayGridState.deleteWord(): PlayGridState =
+    copy(grid = grid.dropLast(1).plusElement(emptyList()), isUnknownWord = false)
 
 private fun PlayGridState.deleteLastChar(): PlayGridState =
     grid.last().let { currentRow ->
