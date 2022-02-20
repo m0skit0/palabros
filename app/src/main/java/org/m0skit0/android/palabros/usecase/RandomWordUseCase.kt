@@ -6,7 +6,7 @@ import org.m0skit0.android.palabros.di.koin
 import org.m0skit0.android.palabros.log.log
 import org.m0skit0.android.palabros.state.PlayGridState
 
-typealias RandomWordUseCase = suspend () -> Unit
+typealias RandomWordUseCase = () -> Unit
 
 fun randomWordUseCase(
     playGridState: MutableStateFlow<PlayGridState> = koin.get(NAMED_PLAY_GRID_STATE_FLOW),
