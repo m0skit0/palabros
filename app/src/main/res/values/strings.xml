@@ -3,5 +3,9 @@
     <string name="win">Ganaste!</string>
     <string name="lost">Perdiste :( La palabra era %1$s</string>
     <string name="word_not_found">Palabra no encontrada en el diccionario</string>
-    <string name="help">\?</string>
+    <string name="help">Ayuda</string>
+    <string name="help_symbol">\?</string>
+    <string name="help_red">Letra no existe en la palabra</string>
+    <string name="help_yellow">Letra en posición incorrecta</string>
+    <string name="help_green">Letra correcta</string>
 </resources>

@@ -12,6 +12,7 @@ val GridBackgroundColor = Color.Black
 val GridTextColor = Color.White
 val KeysBackgroundColor = Color.Black
 val KeyTextColor = Color.White
+val HelpSymbolColor = Color.White
 
 val LightColors = lightColors(
     primary = Color(0xff007ac1),
