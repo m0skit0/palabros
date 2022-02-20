@@ -2,6 +2,7 @@ package org.m0skit0.android.palabros.presentation.playgrid
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.GridCells
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -37,6 +39,7 @@ private val QWERTY = listOf(
 fun KeyboardPreview() {
     Keyboard(
         onKeyClick = {},
+        onLongClick = {},
         playGridState = MutableStateFlow(PlayGridState())
     )
 }
@@ -49,6 +52,7 @@ fun Keyboard(
     keyPadding: Dp = 2.dp,
     textPadding: Dp = 4.dp,
     onKeyClick: (Char) -> Unit,
+    onLongClick: (Char) -> Unit,
     playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
     val state = playGridState.collectAsState(initial = PlayGridState())
@@ -63,6 +67,7 @@ fun Keyboard(
                     keyPadding,
                     textPadding,
                     onClick = onKeyClick,
+                    onLongClick = onLongClick,
                     state = state.value
                 )
             }
@@ -76,11 +81,14 @@ fun KeyboardKeyCard(
     cardPadding: Dp = 4.dp,
     textPadding: Dp = 4.dp,
     onClick: (Char) -> Unit,
+    onLongClick: (Char) -> Unit,
     state: PlayGridState,
 ) {
     val modifier = Modifier.padding(cardPadding).let {
         if (key == ' ') it
-        else it.clickable { onClick(key) }
+        else it.clickable { onClick(key) }.pointerInput(Unit) {
+            detectTapGestures(onLongPress = { onLongClick(key) })
+        }
     }
     Card(
         modifier = modifier,

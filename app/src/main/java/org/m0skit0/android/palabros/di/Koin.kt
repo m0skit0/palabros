@@ -15,10 +15,7 @@ import org.m0skit0.android.palabros.data.loadWordsRepository
 import org.m0skit0.android.palabros.log.Logger
 import org.m0skit0.android.palabros.log.log
 import org.m0skit0.android.palabros.state.PlayGridState
-import org.m0skit0.android.palabros.usecase.OnKeyClickedUseCase
-import org.m0skit0.android.palabros.usecase.RandomWordUseCase
-import org.m0skit0.android.palabros.usecase.onKeyClicked
-import org.m0skit0.android.palabros.usecase.randomWordUseCase
+import org.m0skit0.android.palabros.usecase.*
 
 lateinit var koin: Koin private set
 
@@ -43,9 +40,11 @@ private val stateModule = module {
 }
 
 val NAMED_ON_KEY_CLICKED_USE_CASE = named("NAMED_ON_KEY_CLICKED_USE_CASE")
+val NAMED_ON_LONG_KEY_CLICKED_USE_CASE = named("NAMED_ON_LONG_KEY_CLICKED_USE_CASE")
 val NAMED_RANDOM_WORD_USE_CASE = named("NAMED_RANDOM_WORD_USE_CASE")
 private val useCaseModule = module {
     single<OnKeyClickedUseCase>(NAMED_ON_KEY_CLICKED_USE_CASE) { { key -> onKeyClicked(key) } }
+    single<OnKeyClickedUseCase>(NAMED_ON_LONG_KEY_CLICKED_USE_CASE) { { key -> onLongKeyCliked(key) } }
     single<RandomWordUseCase>(NAMED_RANDOM_WORD_USE_CASE) { { randomWordUseCase() } }
 }
 

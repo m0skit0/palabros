@@ -34,6 +34,7 @@ import org.m0skit0.android.palabros.theme.HelpSymbolColor
 fun PlayGridPreview() {
     PlayGridColumn(
         onKeyClick = {},
+        onLongKeyClick = {},
         playGridState = MutableStateFlow(PlayGridState())
     )
 }
@@ -42,13 +43,18 @@ fun PlayGridPreview() {
 @Composable
 fun PlayGrid(
     onKeyClick: (Char) -> Unit,
+    onLongKeyClick: (Char) -> Unit,
     playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW),
 ) {
     playGridState.collectAsState(initial = PlayGridState()).value.run {
         checkVictoryConditions(LocalContext.current)
         checkUnknownWord(LocalContext.current)
         if (isLoading) Loading()
-        else PlayGridColumn(onKeyClick)
+        else PlayGridColumn(
+            onKeyClick,
+            onLongKeyClick,
+            playGridState
+        )
     }
 }
 
@@ -56,6 +62,7 @@ fun PlayGrid(
 @Composable
 private fun PlayGridColumn(
     onKeyClick: (Char) -> Unit,
+    onLongKeyClick: (Char) -> Unit,
     playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
     Column(
@@ -73,6 +80,7 @@ private fun PlayGridColumn(
         ) {
             Keyboard(
                 onKeyClick = onKeyClick,
+                onLongClick = onLongKeyClick,
                 playGridState = playGridState,
             )
         }
