@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Palabros</string>
     <string name="win">Ganaste!</string>
-    <string name="lost">Perdiste :( La palabra era %1$s</string>
+    <string name="lost">Perdiste :( La palabra era "%1$s"</string>
     <string name="word_not_found">Palabra no encontrada en el diccionario</string>
     <string name="help">Ayuda</string>
     <string name="help_symbol">\?</string>
