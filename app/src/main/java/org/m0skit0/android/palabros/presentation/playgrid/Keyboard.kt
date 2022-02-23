@@ -43,7 +43,7 @@ private val QWERTY = listOf(
 @ExperimentalFoundationApi
 @Preview
 @Composable
-fun KeyboardPreview() {
+private fun KeyboardPreview() {
     Keyboard(
         onKeyClick = {},
         playGridState = MutableStateFlow(PlayGridState())
@@ -76,7 +76,7 @@ fun Keyboard(
 }
 
 @Composable
-fun KeyboardKeyCard(
+private fun KeyboardKeyCard(
     key: Char,
     cardPadding: Dp = 2.dp,
     onClick: (Char) -> Unit,
@@ -98,7 +98,7 @@ fun KeyboardKeyCard(
 }
 
 @Composable
-fun KeyboardKeyText(
+private fun KeyboardKeyText(
     key: Char,
     textPadding: Dp = 2.dp,
 ) {
@@ -114,7 +114,7 @@ fun KeyboardKeyText(
 }
 
 @Composable
-fun KeyboardKeyDrawable(
+private fun KeyboardKeyDrawable(
     @DrawableRes drawableRes: Int,
     imagePadding: Dp = 5.dp,
 ) {

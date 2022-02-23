@@ -30,7 +30,7 @@ import org.m0skit0.android.palabros.theme.GridTextColor
 @ExperimentalFoundationApi
 @Preview
 @Composable
-fun WordGridPreview() {
+private fun WordGridPreview() {
     WordGrid(
         playGridState = MutableStateFlow(PlayGridState())
     )
@@ -65,7 +65,7 @@ fun WordGrid(
 }
 
 @Composable
-fun WordGridLetter(
+private fun WordGridLetter(
     cardPadding: Dp,
     textPadding: Dp,
     row: Int,
