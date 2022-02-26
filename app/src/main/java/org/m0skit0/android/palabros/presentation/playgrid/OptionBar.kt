@@ -21,6 +21,7 @@ import org.m0skit0.android.palabros.R
 import org.m0skit0.android.palabros.di.NAMED_ABANDON_USE_CASE
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
 import org.m0skit0.android.palabros.di.koin
+import org.m0skit0.android.palabros.presentation.ConfirmationDialog
 import org.m0skit0.android.palabros.state.PlayGridState
 import org.m0skit0.android.palabros.theme.HelpSymbolColor
 import org.m0skit0.android.palabros.usecase.AbandonUseCase
@@ -66,7 +67,16 @@ private fun Abandon(
         )
     }
     if (showConfirmation.value) {
-
+        ConfirmationDialog(text = R.string.abandon_confirmation, onCancel = {
+            showConfirmation.value = false
+        }) {
+            showConfirmation.value = false
+            isConfirmed.value = true
+        }
+    }
+    if (isConfirmed.value) {
+        abandonUseCase()
+        isConfirmed.value = false
     }
 }
 
