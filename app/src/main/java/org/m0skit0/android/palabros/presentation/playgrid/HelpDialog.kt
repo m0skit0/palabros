@@ -4,7 +4,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -18,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.m0skit0.android.palabros.R
 import org.m0skit0.android.palabros.presentation.CardDialog
+import org.m0skit0.android.palabros.presentation.PalabrosButton
 
 @Composable
 fun HelpDialog(onDismiss: () -> Unit) {
@@ -79,7 +79,7 @@ private fun HelpTypeRow(
 
 @Composable
 private fun ColumnScope.OkButton(onDismiss: () -> Unit) {
-    Button(
+    PalabrosButton(
         modifier = Modifier.align(Alignment.End),
         onClick = onDismiss,
         content = { Text(text = stringResource(android.R.string.ok)) },

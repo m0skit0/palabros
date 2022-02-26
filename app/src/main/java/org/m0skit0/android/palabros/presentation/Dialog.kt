@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -58,10 +57,10 @@ private fun ConfirmationDialogContent(
     ) {
         Text(modifier = Modifier.padding(5.dp), text = stringResource(id = text))
         Row(modifier = Modifier.align(Alignment.End)) {
-            Button(onClick = onCancel) {
+            PalabrosButton(onClick = onCancel) {
                 Text(text = stringResource(id = android.R.string.cancel))
             }
-            Button(onClick = onOk) {
+            PalabrosButton(onClick = onOk) {
                 Text(text = stringResource(id = android.R.string.ok))
             }
         }

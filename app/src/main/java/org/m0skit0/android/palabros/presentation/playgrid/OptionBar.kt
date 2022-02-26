@@ -3,8 +3,6 @@ package org.m0skit0.android.palabros.presentation.playgrid
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,15 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import org.m0skit0.android.palabros.R
 import org.m0skit0.android.palabros.di.NAMED_ABANDON_USE_CASE
-import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
 import org.m0skit0.android.palabros.di.koin
 import org.m0skit0.android.palabros.presentation.ConfirmationDialog
-import org.m0skit0.android.palabros.state.PlayGridState
+import org.m0skit0.android.palabros.presentation.PalabrosButton
 import org.m0skit0.android.palabros.theme.HelpSymbolColor
 import org.m0skit0.android.palabros.usecase.AbandonUseCase
 
@@ -31,33 +25,28 @@ import org.m0skit0.android.palabros.usecase.AbandonUseCase
 private fun OptionBarPreview() {
     OptionBar(
         abandonUseCase = {},
-        playGridState = MutableStateFlow(PlayGridState())
     )
 }
 
 @Composable
 fun OptionBar(
     abandonUseCase: AbandonUseCase = koin.get(NAMED_ABANDON_USE_CASE),
-    playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
     Row(
-        modifier = Modifier
-            .padding(5.dp)
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Abandon(abandonUseCase)
+        AbandonButton(abandonUseCase)
         HelpButton()
     }
 }
 
 @Composable
-private fun Abandon(
+private fun AbandonButton(
     abandonUseCase: AbandonUseCase = koin.get(NAMED_ABANDON_USE_CASE)
 ) {
     val showConfirmation = remember { mutableStateOf(false) }
     val isConfirmed = remember { mutableStateOf(false) }
-    Button(
-        modifier = Modifier.padding(5.dp),
+    PalabrosButton(
         onClick = { showConfirmation.value = true }
     ) {
         Text(
@@ -87,8 +76,7 @@ private fun HelpButton() {
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.CenterEnd
     ) {
-        Button(
-            modifier = Modifier.padding(5.dp),
+        PalabrosButton(
             onClick = { isDialogOpen.value = true },
         ) {
             Text(

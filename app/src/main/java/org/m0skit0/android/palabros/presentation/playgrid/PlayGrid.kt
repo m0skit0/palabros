@@ -62,17 +62,15 @@ private fun PlayGridColumn(
             .background(MaterialTheme.colors.primary)
             .fillMaxSize()
     ) {
-        OptionBar(playGridState = playGridState)
+        OptionBar()
         WordGrid(
             playGridState = playGridState,
         )
         Box(
             modifier = Modifier
-                .fillMaxSize()
                 .padding(
                     start = 5.dp,
                     end = 5.dp,
-                    bottom = 20.dp
                 ),
             contentAlignment = Alignment.BottomCenter,
         ) {

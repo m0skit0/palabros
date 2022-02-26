@@ -14,11 +14,6 @@ private val Montserrat = FontFamily(
     Font(R.font.montserrat_semibold, FontWeight.W600)
 )
 
-private val Domine = FontFamily(
-    Font(R.font.domine_regular),
-    Font(R.font.domine_bold, FontWeight.Bold)
-)
-
 val PalabrosTypography = Typography(
     h4 = TextStyle(
         fontFamily = Montserrat,
@@ -46,7 +41,7 @@ val PalabrosTypography = Typography(
         fontSize = 14.sp
     ),
     body1 = TextStyle(
-        fontFamily = Domine,
+        fontFamily = Montserrat,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
