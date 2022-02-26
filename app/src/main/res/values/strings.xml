@@ -9,4 +9,6 @@
     <string name="help_yellow">Letra en posición incorrecta</string>
     <string name="help_green">Letra correcta</string>
     <string name="again">Otra!</string>
+    <string name="abandon_question">Abandonar?</string>
+    <string name="abandon_confirmation">¿Estás seguro que deseas abandonar?</string>
 </resources>
