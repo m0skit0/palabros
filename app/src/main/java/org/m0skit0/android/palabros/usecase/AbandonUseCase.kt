@@ -10,5 +10,10 @@ typealias AbandonUseCase = () -> Unit
 fun abandon(
     state: MutableStateFlow<PlayGridState> = koin.get(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
-
+    state.value = with(state.value) {
+        copy(
+            isFinished = true,
+            isWon = false,
+        )
+    }
 }

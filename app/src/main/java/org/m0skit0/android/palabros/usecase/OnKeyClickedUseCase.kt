@@ -18,13 +18,13 @@ fun onKeyClicked(
     key: Char,
     state: MutableStateFlow<PlayGridState> = koin.get(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
-    state.value = state.value.let { currentState ->
-        if (currentState.isFinished) return
+    state.value = state.value.run {
+        if (isFinished) return
         when (key) {
-            BACKSPACE -> currentState.deleteLastChar()
-            UNDO -> currentState.deleteWord()
-            ENTER -> currentState.checkWord()
-            else -> currentState.addChar(key)
+            BACKSPACE -> deleteLastChar()
+            UNDO -> deleteWord()
+            ENTER -> checkWord()
+            else -> addChar(key)
         }
     }
 }
