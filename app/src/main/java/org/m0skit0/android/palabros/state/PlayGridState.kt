@@ -6,6 +6,7 @@ const val WORD_LENGTH = 5
 const val TRIES = 6
 
 data class PlayGridState(
+    val isNotComplete: Boolean = false,
     val isUnknownWord: Boolean = false,
     val isLoading: Boolean = true,
     val isFinished: Boolean = false,
@@ -19,4 +20,8 @@ data class PlayGridState(
     val redLetters: List<Char> = emptyList(),
     val gridLetterColors: List<List<Color>> = emptyList(),
     val wordDictionary: List<String> = emptyList(),
-)
+) {
+    // Hack: avoids StateFlow not being update if same state is pushed into it
+    override fun equals(other: Any?): Boolean = false
+    override fun hashCode(): Int = 0
+}
