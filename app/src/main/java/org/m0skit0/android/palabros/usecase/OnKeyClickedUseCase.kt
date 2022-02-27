@@ -18,7 +18,7 @@ fun onKeyClicked(
     key: Char,
     state: MutableStateFlow<PlayGridState> = koin.get(NAMED_PLAY_GRID_STATE_FLOW)
 ) {
-    state.value = state.value.run {
+    state.value = state.value.cleanFlags().run {
         if (isFinished) return
         when (key) {
             BACKSPACE -> deleteLastChar()
@@ -29,14 +29,20 @@ fun onKeyClicked(
     }
 }
 
+private fun PlayGridState.cleanFlags(): PlayGridState =
+    copy(
+        isNotComplete = false,
+        isUnknownWord = false,
+    )
+
 private fun PlayGridState.deleteWord(): PlayGridState =
-    copy(grid = grid.dropLast(1).plusElement(emptyList()), isUnknownWord = false)
+    copy(grid = grid.dropLast(1).plusElement(emptyList()))
 
 private fun PlayGridState.deleteLastChar(): PlayGridState =
     grid.last().let { currentRow ->
         if (currentRow.isEmpty()) this
         else copy(grid = grid.dropLast(1).plusElement(currentRow.dropLast(1)))
-    }.copy(isUnknownWord = false)
+    }
 
 private fun PlayGridState.addChar(key: Char): PlayGridState =
     grid.last().let { currentRow ->
@@ -46,17 +52,15 @@ private fun PlayGridState.addChar(key: Char): PlayGridState =
 
 private fun PlayGridState.checkWord(): PlayGridState =
     grid.last().toCharArray().concatToString().let { guess ->
-        if (!wordDictionary.contains(guess)) unknownWord()
-        else {
-            copy(isUnknownWord = false).run {
-                if (guess == secretWord) win()
-                else nextWord()
-            }
-        }
+        if (guess.length < width) notComplete()
+        else if (!wordDictionary.contains(guess)) unknownWord()
+        else if (guess == secretWord) win()
+        else nextWord()
     }
 
-private fun PlayGridState.unknownWord(): PlayGridState =
-    copy(isUnknownWord = true)
+private fun PlayGridState.notComplete(): PlayGridState = copy(isNotComplete = true)
+
+private fun PlayGridState.unknownWord(): PlayGridState = copy(isUnknownWord = true)
 
 private fun PlayGridState.win(): PlayGridState = copy(
     isFinished = true,

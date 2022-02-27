@@ -1,6 +1,5 @@
 package org.m0skit0.android.palabros.presentation.playgrid
 
-import android.content.Context
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -47,7 +46,8 @@ fun PlayGrid(
             playGridState = playGridState,
         )
         CheckVictoryConditions(onReset)
-        checkUnknownWord(LocalContext.current)
+        CheckUnknownWord()
+        CheckWordComplete()
     }
 }
 
@@ -90,8 +90,16 @@ private fun PlayGridState.CheckVictoryConditions(onReset: () -> Unit) {
     }
 }
 
-private fun PlayGridState.checkUnknownWord(context: Context) {
+@Composable
+private fun PlayGridState.CheckUnknownWord() {
     if (isUnknownWord) {
-        context.toast(R.string.word_not_found)
+        LocalContext.current.toast(R.string.word_not_found)
+    }
+}
+
+@Composable
+private fun PlayGridState.CheckWordComplete() {
+    if (isNotComplete) {
+        LocalContext.current.toast(R.string.word_not_complete, width.toString())
     }
 }

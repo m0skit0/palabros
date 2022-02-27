@@ -11,4 +11,5 @@
     <string name="again">Otra!</string>
     <string name="abandon_question">Abandonar?</string>
     <string name="abandon_confirmation">¿Estás seguro que deseas abandonar?</string>
+    <string name="word_not_complete">La palabra tiene menos de %1$s letras</string>
 </resources>
