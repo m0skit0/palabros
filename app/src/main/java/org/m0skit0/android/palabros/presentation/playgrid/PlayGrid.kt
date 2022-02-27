@@ -62,10 +62,8 @@ private fun PlayGridColumn(
             .background(MaterialTheme.colors.primary)
             .fillMaxSize()
     ) {
-        OptionBar()
-        WordGrid(
-            playGridState = playGridState,
-        )
+        OptionBar(playGridState = playGridState)
+        WordGrid(playGridState = playGridState)
         Box(
             modifier = Modifier
                 .padding(
