@@ -83,8 +83,8 @@ private fun PlayGridColumn(
 @Composable
 private fun PlayGridState.CheckVictoryConditions(onReset: () -> Unit) {
     if (isFinished) {
-        if (isWon) WinSnackbar(onTryAgain = onReset)
-        else LostSnackbar(secretWord = secretWord, onTryAgain = onReset)
+        if (isWon) WinSnackbar(word = secretWord, onTryAgain = onReset, onDefinition = {})
+        else LostSnackbar(secretWord = secretWord, onTryAgain = onReset, onDefinition = {})
     }
 }
 
