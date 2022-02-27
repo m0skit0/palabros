@@ -44,12 +44,14 @@ val NAMED_RANDOM_WORD_USE_CASE = named("NAMED_RANDOM_WORD_USE_CASE")
 val NAMED_LOAD_WORDS_USE_CASE = named("NAMED_LOAD_WORDS_USE_CASE")
 val NAMED_RESET_STATE_USE_CASE = named("NAMED_RESET_STATE_USE_CASE")
 val NAMED_ABANDON_USE_CASE = named("NAMED_ABANDON_USE_CASE")
+val NAMED_DEFINITION_USE_CASE = named("NAMED_DEFINITION_USE_CASE")
 private val useCaseModule = module {
     single<OnKeyClickedUseCase>(NAMED_ON_KEY_CLICKED_USE_CASE) { { key -> onKeyClicked(key) } }
     single<LoadWordsUseCase>(NAMED_LOAD_WORDS_USE_CASE) { { loadWordsUseCase() } }
     single<RandomWordUseCase>(NAMED_RANDOM_WORD_USE_CASE) { { randomWordUseCase() } }
     single<ResetStateUseCase>(NAMED_RESET_STATE_USE_CASE) { { resetStateUseCase() } }
     single<AbandonUseCase>(NAMED_ABANDON_USE_CASE) { { abandon() } }
+    single<DefinitionUseCase>(NAMED_DEFINITION_USE_CASE) { { word -> definition(word = word) } }
 }
 
 val NAMED_LOGGER = named("NAMED_LOGGER")

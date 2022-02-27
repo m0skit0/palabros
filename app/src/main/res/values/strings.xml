@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Palabros</string>
     <string name="win">Ganaste!</string>
-    <string name="lost">Perdiste :( La palabra era "%1$s"</string>
+    <string name="lost">Perdiste :(\nLa palabra era \"%1$s\"</string>
     <string name="word_not_found">Palabra no encontrada en el diccionario</string>
     <string name="help">Ayuda</string>
     <string name="help_symbol">\?</string>
@@ -9,7 +9,8 @@
     <string name="help_yellow">Letra en posición incorrecta</string>
     <string name="help_green">Letra correcta</string>
     <string name="again">Otra!</string>
-    <string name="abandon_question">Abandonar?</string>
+    <string name="abandon_question">¿Abandonar?</string>
     <string name="abandon_confirmation">¿Estás seguro que deseas abandonar?</string>
     <string name="word_not_complete">La palabra tiene menos de %1$s letras</string>
+    <string name="definition">Definición</string>
 </resources>

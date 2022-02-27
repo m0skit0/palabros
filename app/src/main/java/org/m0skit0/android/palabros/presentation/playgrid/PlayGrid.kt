@@ -17,11 +17,15 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.m0skit0.android.palabros.R
+import org.m0skit0.android.palabros.di.NAMED_ABANDON_USE_CASE
+import org.m0skit0.android.palabros.di.NAMED_DEFINITION_USE_CASE
 import org.m0skit0.android.palabros.di.NAMED_PLAY_GRID_STATE_FLOW
 import org.m0skit0.android.palabros.di.koin
 import org.m0skit0.android.palabros.presentation.Loading
 import org.m0skit0.android.palabros.presentation.toast
 import org.m0skit0.android.palabros.state.PlayGridState
+import org.m0skit0.android.palabros.usecase.AbandonUseCase
+import org.m0skit0.android.palabros.usecase.DefinitionUseCase
 
 @ExperimentalFoundationApi
 @Preview
@@ -37,7 +41,10 @@ fun PlayGridPreview() {
 fun PlayGrid(
     onKeyClick: (Char) -> Unit = {},
     onReset: () -> Unit = {},
-    playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW),
+    playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(
+        NAMED_PLAY_GRID_STATE_FLOW
+    ),
+    definitionUseCase: DefinitionUseCase = koin.get(NAMED_DEFINITION_USE_CASE),
 ) {
     playGridState.collectAsState(initial = PlayGridState()).value.run {
         if (isLoading) Loading()
@@ -45,7 +52,10 @@ fun PlayGrid(
             onKeyClick = onKeyClick,
             playGridState = playGridState,
         )
-        CheckVictoryConditions(onReset)
+        CheckVictoryConditions(
+            onReset = onReset,
+            definitionUseCase = definitionUseCase
+        )
         CheckUnknownWord()
         CheckWordComplete()
     }
@@ -55,36 +65,41 @@ fun PlayGrid(
 @Composable
 private fun PlayGridColumn(
     onKeyClick: (Char) -> Unit = {},
-    playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(NAMED_PLAY_GRID_STATE_FLOW)
+    playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(
+        NAMED_PLAY_GRID_STATE_FLOW
+    ),
+    abandonUseCase: AbandonUseCase = koin.get(NAMED_ABANDON_USE_CASE),
 ) {
     Column(
         modifier = Modifier
             .background(MaterialTheme.colors.primary)
             .fillMaxSize()
     ) {
-        OptionBar(playGridState = playGridState)
+        OptionBar(
+            playGridState = playGridState,
+            abandonUseCase = abandonUseCase
+        )
         WordGrid(playGridState = playGridState)
-        Box(
-            modifier = Modifier
-                .padding(
-                    start = 5.dp,
-                    end = 5.dp,
-                ),
-            contentAlignment = Alignment.BottomCenter,
-        ) {
-            Keyboard(
-                onKeyClick = onKeyClick,
-                playGridState = playGridState,
-            )
-        }
+        KeyboardBox(
+            onKeyClick = onKeyClick,
+            playGridState = playGridState,
+        )
     }
 }
 
 @Composable
-private fun PlayGridState.CheckVictoryConditions(onReset: () -> Unit) {
+private fun PlayGridState.CheckVictoryConditions(
+    onReset: () -> Unit,
+    definitionUseCase: DefinitionUseCase,
+) {
     if (isFinished) {
-        if (isWon) WinSnackbar(onTryAgain = onReset)
-        else LostSnackbar(secretWord = secretWord, onTryAgain = onReset)
+        if (isWon) WinSnackbar(
+            onTryAgain = onReset,
+            onDefinition = { definitionUseCase(secretWord) })
+        else LostSnackbar(
+            secretWord = secretWord,
+            onTryAgain = onReset,
+            onDefinition = { definitionUseCase(secretWord) })
     }
 }
 
@@ -99,5 +114,28 @@ private fun PlayGridState.CheckUnknownWord() {
 private fun PlayGridState.CheckWordComplete() {
     if (isNotComplete) {
         LocalContext.current.toast(R.string.word_not_complete, width.toString())
+    }
+}
+
+@ExperimentalFoundationApi
+@Composable
+private fun KeyboardBox(
+    onKeyClick: (Char) -> Unit,
+    playGridState: Flow<PlayGridState> = koin.get<MutableStateFlow<PlayGridState>>(
+        NAMED_PLAY_GRID_STATE_FLOW
+    )
+) {
+    Box(
+        modifier = Modifier
+            .padding(
+                start = 5.dp,
+                end = 5.dp,
+            ),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+        Keyboard(
+            onKeyClick = onKeyClick,
+            playGridState = playGridState,
+        )
     }
 }

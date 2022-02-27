@@ -1,8 +1,7 @@
 package org.m0skit0.android.palabros.presentation.playgrid
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Snackbar
 import androidx.compose.material.Text
@@ -11,49 +10,71 @@ import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.m0skit0.android.palabros.R
 
 @Preview
 @Composable
 fun LostSnackbarPreview() {
-    LostSnackbar(secretWord = "roble") {}
+    LostSnackbar(
+        secretWord = "roble",
+        onTryAgain = {},
+        onDefinition = {}
+    )
 }
 
 @Preview
 @Composable
 fun WinSnackbarPreview() {
-    WinSnackbar {}
+    WinSnackbar(
+        onTryAgain = {},
+        onDefinition = {}
+    )
 }
 
 @Composable
 fun LostSnackbar(
     secretWord: String,
-    onTryAgain: () -> Unit
+    onTryAgain: () -> Unit,
+    onDefinition: () -> Unit
 ) {
-    SnackbarBox {
-        Snackbar(
-            action = {
-                Button(onClick = onTryAgain) {
-                    Text(text = stringResource(R.string.again))
-                }
-            }) {
-            Text(text = stringResource(R.string.lost, secretWord))
-        }
-    }
+    PlayGridSnackbar(
+        onTryAgain = onTryAgain,
+        onDefinition = onDefinition,
+        text = R.string.lost,
+        values = arrayOf(secretWord),
+    )
 }
 
 @Composable
 fun WinSnackbar(
-    onTryAgain: () -> Unit
+    onTryAgain: () -> Unit,
+    onDefinition: () -> Unit
+) {
+    PlayGridSnackbar(
+        onTryAgain = onTryAgain,
+        onDefinition = onDefinition,
+        text = R.string.win
+    )
+}
+
+@Composable
+private fun PlayGridSnackbar(
+    onTryAgain: () -> Unit,
+    onDefinition: () -> Unit,
+    @StringRes text: Int,
+    vararg values: String,
 ) {
     SnackbarBox {
         Snackbar(
             action = {
-                Button(onClick = onTryAgain) {
-                    Text(text = stringResource(R.string.again))
-                }
-            }) {
-            Text(text = stringResource(R.string.win))
+                ActionButtons(
+                    onTryAgain = onTryAgain,
+                    onDefinition = onDefinition
+                )
+            }
+        ) {
+            Text(text = stringResource(text, *values))
         }
     }
 }
@@ -65,4 +86,22 @@ private fun SnackbarBox(snackbar: @Composable BoxScope.() -> Unit) {
         contentAlignment = BottomCenter,
         content = snackbar
     )
+}
+
+@Composable
+private fun ActionButtons(
+    onTryAgain: () -> Unit,
+    onDefinition: () -> Unit,
+) {
+    Row {
+        Button(
+            modifier = Modifier.padding(end = 5.dp),
+            onClick = onDefinition
+        ) {
+            Text(text = stringResource(R.string.definition))
+        }
+        Button(onClick = onTryAgain) {
+            Text(text = stringResource(R.string.again))
+        }
+    }
 }
