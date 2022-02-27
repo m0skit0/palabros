@@ -27,7 +27,6 @@ fun LostSnackbarPreview() {
 @Composable
 fun WinSnackbarPreview() {
     WinSnackbar(
-        word = "roble",
         onTryAgain = {},
         onDefinition = {}
     )
@@ -37,10 +36,9 @@ fun WinSnackbarPreview() {
 fun LostSnackbar(
     secretWord: String,
     onTryAgain: () -> Unit,
-    onDefinition: (String) -> Unit
+    onDefinition: () -> Unit
 ) {
     PlayGridSnackbar(
-        word = secretWord,
         onTryAgain = onTryAgain,
         onDefinition = onDefinition,
         text = R.string.lost,
@@ -50,12 +48,10 @@ fun LostSnackbar(
 
 @Composable
 fun WinSnackbar(
-    word: String,
     onTryAgain: () -> Unit,
-    onDefinition: (String) -> Unit
+    onDefinition: () -> Unit
 ) {
     PlayGridSnackbar(
-        word = word,
         onTryAgain = onTryAgain,
         onDefinition = onDefinition,
         text = R.string.win
@@ -64,9 +60,8 @@ fun WinSnackbar(
 
 @Composable
 private fun PlayGridSnackbar(
-    word: String,
     onTryAgain: () -> Unit,
-    onDefinition: (String) -> Unit,
+    onDefinition: () -> Unit,
     @StringRes text: Int,
     vararg values: String,
 ) {
@@ -74,7 +69,6 @@ private fun PlayGridSnackbar(
         Snackbar(
             action = {
                 ActionButtons(
-                    word = word,
                     onTryAgain = onTryAgain,
                     onDefinition = onDefinition
                 )
@@ -96,14 +90,13 @@ private fun SnackbarBox(snackbar: @Composable BoxScope.() -> Unit) {
 
 @Composable
 private fun ActionButtons(
-    word: String,
     onTryAgain: () -> Unit,
-    onDefinition: (String) -> Unit
+    onDefinition: () -> Unit,
 ) {
     Row {
         Button(
             modifier = Modifier.padding(end = 5.dp),
-            onClick = { onDefinition(word) }
+            onClick = onDefinition
         ) {
             Text(text = stringResource(R.string.definition))
         }
