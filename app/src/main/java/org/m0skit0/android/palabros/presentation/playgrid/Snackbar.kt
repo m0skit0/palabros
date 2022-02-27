@@ -1,5 +1,6 @@
 package org.m0skit0.android.palabros.presentation.playgrid
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Snackbar
@@ -38,19 +39,13 @@ fun LostSnackbar(
     onTryAgain: () -> Unit,
     onDefinition: (String) -> Unit
 ) {
-    SnackbarBox {
-        Snackbar(
-            action = {
-                ActionButtons(
-                    word = secretWord,
-                    onTryAgain = onTryAgain,
-                    onDefinition = onDefinition
-                )
-            }
-        ) {
-            Text(text = stringResource(R.string.lost, secretWord))
-        }
-    }
+    PlayGridSnackbar(
+        word = secretWord,
+        onTryAgain = onTryAgain,
+        onDefinition = onDefinition,
+        text = R.string.lost,
+        values = arrayOf(secretWord),
+    )
 }
 
 @Composable
@@ -58,6 +53,22 @@ fun WinSnackbar(
     word: String,
     onTryAgain: () -> Unit,
     onDefinition: (String) -> Unit
+) {
+    PlayGridSnackbar(
+        word = word,
+        onTryAgain = onTryAgain,
+        onDefinition = onDefinition,
+        text = R.string.win
+    )
+}
+
+@Composable
+private fun PlayGridSnackbar(
+    word: String,
+    onTryAgain: () -> Unit,
+    onDefinition: (String) -> Unit,
+    @StringRes text: Int,
+    vararg values: String,
 ) {
     SnackbarBox {
         Snackbar(
@@ -69,7 +80,7 @@ fun WinSnackbar(
                 )
             }
         ) {
-            Text(text = stringResource(R.string.win))
+            Text(text = stringResource(text, *values))
         }
     }
 }
