@@ -9,11 +9,13 @@ typealias DefinitionUseCase = (String) -> Unit
 
 fun definition(
     context: Context = koin.get(),
-    word: String
+    word: String,
+    uriProvider: (String) -> Uri? = { url -> Uri.parse(url) },
+    intentProvider: (String, Uri) -> Intent = { action, uri -> Intent(action, uri) }
 ) {
     val url = "https://dle.rae.es/${word}"
-    Uri.parse(url).let { webpage ->
-        Intent(Intent.ACTION_VIEW, webpage).let {
+    uriProvider(url)?.let { webpage ->
+        intentProvider(Intent.ACTION_VIEW, webpage).let {
             it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(it)
         }
