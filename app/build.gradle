@@ -55,14 +55,24 @@ dependencies {
     def arrowVersion = "1.0.1"
     implementation "io.arrow-kt:arrow-core:$arrowVersion"
 
+    def composeVersion = "1.1.1"
     implementation 'androidx.activity:activity-compose:1.4.0'
     implementation 'androidx.compose.material:material:1.1.1'
     implementation "androidx.compose.material:material-icons-extended:1.1.1"
     implementation 'androidx.compose.animation:animation:1.1.1'
     implementation 'androidx.compose.ui:ui-tooling:1.1.1'
     implementation "androidx.compose.ui:ui-tooling-preview:1.1.1"
+    implementation "androidx.compose.material:material:$composeVersion"
+    implementation "androidx.compose.material:material-icons-extended:$composeVersion"
+    implementation "androidx.compose.animation:animation:$composeVersion"
+    implementation "androidx.compose.ui:ui-tooling:$composeVersion"
+    implementation "androidx.compose.ui:ui-tooling-preview:$composeVersion"
 
     implementation 'com.beust:klaxon:5.5'
 
     testImplementation 'junit:junit:4.13.2'
+    testImplementation "io.mockk:mockk:1.12.2"
+    testImplementation('io.kotlintest:kotlintest-runner-junit4:3.4.2') {
+        exclude group: 'io.arrow-kt'
+    }
 }
