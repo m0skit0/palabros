@@ -31,7 +31,11 @@ class DefinitionUseCaseTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        every { mockUriProvider(any()) } returns mockUri
+        every { mockIntent.setFlags(any()) } returns mockIntent
+        every { mockIntentProvider(any(), any()) } returns mockIntent
         every { mockContext.startActivity(any()) } just Runs
+
     }
 
     @Test
@@ -53,13 +57,24 @@ class DefinitionUseCaseTest {
             mockUri
         }
         every { mockIntentProvider(any(), any()) } returns mockIntent
-        every { mockIntent.setFlags(any()) } returns mockIntent
 
         definition(mockContext, word, mockUriProvider, mockIntentProvider)
 
         url.run {
             shouldNotBeNull()
             shouldBe("https://dle.rae.es/${word}")
+        }
+    }
+
+    @Test
+    fun `when passed a word it should launch a new activity to browse to the URL`() {
+        definition(mockContext, "blah", mockUriProvider, mockIntentProvider)
+
+        verify {
+            mockUriProvider(any())
+            mockIntentProvider(Intent.ACTION_VIEW, any())
+            mockIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            mockContext.startActivity(mockIntent)
         }
     }
 }
