@@ -1,4 +1,4 @@
-package org.m0skit0.android.palabros
+package org.m0skit0.android.palabros.usecase
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,6 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Before
 import org.junit.Test
-import org.m0skit0.android.palabros.usecase.definition
 
 class DefinitionUseCaseTest {
 

@@ -1,4 +1,4 @@
-package org.m0skit0.android.palabros
+package org.m0skit0.android.palabros.usecase
 
 import io.kotlintest.matchers.boolean.shouldBeFalse
 import io.kotlintest.matchers.boolean.shouldBeTrue
@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
 import org.junit.Test
 import org.m0skit0.android.palabros.state.PlayGridState
-import org.m0skit0.android.palabros.usecase.abandon
 
 class AbandonUseCaseTest {
 
