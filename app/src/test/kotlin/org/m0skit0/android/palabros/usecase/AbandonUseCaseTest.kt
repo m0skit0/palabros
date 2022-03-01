@@ -14,7 +14,7 @@ import org.m0skit0.android.palabros.state.PlayGridState
 class AbandonUseCaseTest {
 
     @MockK
-    private lateinit var playGridFlow: MutableStateFlow<PlayGridState>
+    private lateinit var mockPlayGridFlow: MutableStateFlow<PlayGridState>
 
     @Before
     fun setup() {
@@ -24,12 +24,12 @@ class AbandonUseCaseTest {
     @Test
     fun `when calling abandon() should set correct values on play state`() {
         var newPlayState: PlayGridState? = null
-        every { playGridFlow.value } returns PlayGridState()
-        every { playGridFlow.value = any() } answers {
+        every { mockPlayGridFlow.value } returns PlayGridState()
+        every { mockPlayGridFlow.value = any() } answers {
             newPlayState = firstArg()
         }
 
-        abandon(playGridFlow)
+        abandon(mockPlayGridFlow)
 
         newPlayState.run {
             shouldNotBeNull()
