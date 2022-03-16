@@ -12,8 +12,8 @@ android {
         applicationId "org.m0skit0.android.palabros"
         minSdk 21
         targetSdk 31
-        versionCode 105
-        versionName "0.1-beta06"
+        versionCode 106
+        versionName "0.1-beta07"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
