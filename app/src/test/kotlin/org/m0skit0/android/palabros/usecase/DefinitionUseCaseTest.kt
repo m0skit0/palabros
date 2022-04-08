@@ -3,42 +3,32 @@ package org.m0skit0.android.palabros.usecase
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import io.kotlintest.matchers.types.shouldNotBeNull
-import io.kotlintest.shouldBe
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.nulls.shouldNotBeNull
+import io.kotest.matchers.shouldBe
 import io.mockk.*
-import io.mockk.impl.annotations.MockK
-import org.junit.Before
-import org.junit.Test
 
-class DefinitionUseCaseTest {
+class DefinitionUseCaseTest : StringSpec({
 
-    @MockK
-    private lateinit var mockContext: Context
+    lateinit var mockContext: Context
+    lateinit var mockUri: Uri
+    lateinit var mockIntent: Intent
+    lateinit var mockUriProvider: (String) -> Uri?
+    lateinit var mockIntentProvider: (String, Uri) -> Intent
 
-    @MockK
-    private lateinit var mockUri: Uri
-
-    @MockK
-    private lateinit var mockIntent: Intent
-
-    @MockK
-    private lateinit var mockUriProvider: (String) -> Uri?
-
-    @MockK
-    private lateinit var mockIntentProvider: (String, Uri) -> Intent
-
-    @Before
-    fun setup() {
-        MockKAnnotations.init(this)
+    beforeEach {
+        mockContext = mockk()
+        mockUri = mockk()
+        mockIntent = mockk()
+        mockUriProvider = mockk()
+        mockIntentProvider = mockk()
         every { mockUriProvider(any()) } returns mockUri
         every { mockIntent.setFlags(any()) } returns mockIntent
         every { mockIntentProvider(any(), any()) } returns mockIntent
         every { mockContext.startActivity(any()) } just Runs
-
     }
 
-    @Test
-    fun `when URI parser returns null should not construct the intent and fail gracefully`() {
+    "when URI parser returns null should not construct the intent and fail gracefully" {
         definition(mockContext, "blah", { null }, mockIntentProvider)
 
         verify(inverse = true) {
@@ -47,8 +37,7 @@ class DefinitionUseCaseTest {
         }
     }
 
-    @Test
-    fun `when URI parser is passed URI it should be correct URI`() {
+    "when URI parser is passed URI it should be correct URI" {
         val word = "blah"
         var url: String? = null
         every { mockUriProvider(any()) } answers {
@@ -65,8 +54,7 @@ class DefinitionUseCaseTest {
         }
     }
 
-    @Test
-    fun `when passed a word it should launch a new activity to browse to the URL`() {
+    "when passed a word it should launch a new activity to browse to the URL" {
         definition(mockContext, "blah", mockUriProvider, mockIntentProvider)
 
         verify {
@@ -76,4 +64,4 @@ class DefinitionUseCaseTest {
             mockContext.startActivity(mockIntent)
         }
     }
-}
+})

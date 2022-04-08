@@ -1,28 +1,23 @@
 package org.m0skit0.android.palabros.usecase
 
-import io.kotlintest.matchers.boolean.shouldBeFalse
-import io.kotlintest.matchers.boolean.shouldBeTrue
-import io.kotlintest.matchers.types.shouldNotBeNull
-import io.mockk.MockKAnnotations
+import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.booleans.shouldBeFalse
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.junit.Before
-import org.junit.Test
 import org.m0skit0.android.palabros.state.PlayGridState
 
-class AbandonUseCaseTest {
+class AbandonUseCaseTest : StringSpec({
 
-    @MockK
-    private lateinit var mockPlayGridFlow: MutableStateFlow<PlayGridState>
+    lateinit var mockPlayGridFlow: MutableStateFlow<PlayGridState>
 
-    @Before
-    fun setup() {
-        MockKAnnotations.init(this)
+    beforeEach {
+        mockPlayGridFlow = mockk()
     }
 
-    @Test
-    fun `when calling abandon() should set correct values on play state`() {
+    "when calling abandon() should set correct values on play state" {
         var newPlayState: PlayGridState? = null
         every { mockPlayGridFlow.value } returns PlayGridState()
         every { mockPlayGridFlow.value = any() } answers {
@@ -37,4 +32,4 @@ class AbandonUseCaseTest {
             isWon.shouldBeFalse()
         }
     }
-}
+})

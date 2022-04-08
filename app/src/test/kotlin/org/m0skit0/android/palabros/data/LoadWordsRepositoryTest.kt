@@ -1,29 +1,23 @@
 package org.m0skit0.android.palabros.data
 
 import android.content.Context
+import io.kotest.core.spec.style.StringSpec
 import io.mockk.*
-import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.junit.Before
-import org.junit.Test
 import org.m0skit0.android.palabros.state.PlayGridState
 import java.io.InputStream
 
-class LoadWordsRepositoryTest {
+class LoadWordsRepositoryTest : StringSpec({
 
-    @MockK
-    private lateinit var mockContext: Context
+    lateinit var mockContext: Context
+    lateinit var mockMutableStateFlow: MutableStateFlow<PlayGridState>
 
-    @MockK
-    private lateinit var mockMutableStateFlow: MutableStateFlow<PlayGridState>
-
-    @Before
-    fun setup() {
-        MockKAnnotations.init(this)
+    beforeEach {
+        mockContext = mockk()
+        mockMutableStateFlow = mockk()
     }
 
-    @Test
-    fun `when word dictionary is not empty on the play state, should do nothing`() {
+    "when word dictionary is not empty on the play state, should do nothing" {
         val playGridState = PlayGridState(wordDictionary = listOf("one"))
         val jsonReader = { _ : InputStream -> listOf("duh") }
         every { mockContext.assets } returns mockk()
@@ -40,4 +34,4 @@ class LoadWordsRepositoryTest {
             mockMutableStateFlow.value = playGridState
         }
     }
-}
+})
