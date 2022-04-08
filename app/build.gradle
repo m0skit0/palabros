@@ -42,6 +42,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion '1.0.5'
     }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -72,8 +78,9 @@ dependencies {
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'io.mockk:mockk:1.12.2'
-    testImplementation('io.kotlintest:kotlintest-runner-junit4:3.4.2') {
-        exclude group: 'io.arrow-kt'
-    }
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
+
+    def kotestVersion = '5.2.2'
+    testImplementation "io.kotest:kotest-runner-junit5:$kotestVersion"
+    testImplementation "io.kotest:kotest-assertions-core:$kotestVersion"
 }
